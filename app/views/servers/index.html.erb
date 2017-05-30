@@ -5,8 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Login</th>
-      <th>Pass</th>
+
       <th>Domain</th>
       <th>Host</th>
       <th colspan="3"></th>
@@ -16,8 +15,7 @@
   <tbody>
     <% @servers.each do |server| %>
       <tr>
-        <td><%= server.login %></td>
-        <td><%= server.pass %></td>
+
         <td><%= server.domain %></td>
         <td><%= server.host %></td>
         <td><%= link_to 'Show', server %></td>

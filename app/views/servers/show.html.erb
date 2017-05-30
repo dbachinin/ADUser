@@ -1,24 +1,46 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Login:</strong>
-  <%= @server.login %>
-</p>
+  <table class="table table-striped table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Login</th>
+      <th>Member of Group</th>
+      </tr>
 
-<p>
-  <strong>Pass:</strong>
-  <%= @server.pass %>
-</p>
 
-<p>
-  <strong>Domain:</strong>
-  <%= @server.domain %>
-</p>
+<%
+	
+	system("touch tmp/tempfile")# unless File.exist?('tmp/tempfile')
+    wFile = File.open("tmp/tempfile", "w+")
+    #rnd = rand(100)
+ 	wFile.puts @server.domain
+ 	wFile.close
+	temp_dig = %x('lib/dig.sh')
 
-<p>
-  <strong>Host:</strong>
-  <%= @server.host %>
-</p>
+	ldap = Net::LDAP.new
+
+		ldap.host = @server.host
+		ldap.host = temp_dig.chomp if @server.host == ""
+		ldap.port = 389
+ 		ldap.auth @server.login+"@#{@server.domain}", @server.pass
+		treebase = @server.domain.split('.').map {|d| "dc=#{d}" }.join(',') 
+
+	<% filter = Net::LDAP::Filter.eq( "objectclass", "person" ) %>
+	
+	<%ldap.search( :base => treebase, :filter => filter ) do |entry_2| %>
+	<tr>
+	<td><%= link_to entry_2.sAMAccountName.join '#' %></td>
+	<td><%= entry_2.cn.join %></td>
+	<td><%= entry_2.objectclass %></td>
+	<td><%= entry_2.dn %></td>
+	</tr>
+	
+    <%  end %>
+
+    <% system("echo "" > tmp/tempfile") %>
+
+
 
 <%= link_to 'Edit', edit_server_path(@server) %> |
 <%= link_to 'Back', servers_path %>
