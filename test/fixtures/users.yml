@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  AccountName: MyString
+  cn: MyString
+  objectclass: MyString
+  dn: MyString
+  server: one
+
+two:
+  AccountName: MyString
+  cn: MyString
+  objectclass: MyString
+  dn: MyString
+  server: two
