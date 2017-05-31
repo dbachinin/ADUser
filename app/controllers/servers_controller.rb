@@ -11,14 +11,8 @@ class ServersController < ApplicationController
   # GET /servers/1.json
   def show
     ldap = Net::LDAP.new
-
-      
-      @user = @server.users.all#(user_params)
-
-      # @user.created_at = Time.now
-      # @user.updated_at = @user.created_at unless @user.updated_at
-      
-
+    @user = @server.users.all#(user_params)
+   
   end
 
   # GET /servers/new
