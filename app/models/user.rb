@@ -1,3 +1,4 @@
 class User < ApplicationRecord
-  belongs_to :server
+  belongs_to :server, optional: false
+
 end

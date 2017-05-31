@@ -10,11 +10,21 @@ class ServersController < ApplicationController
   # GET /servers/1
   # GET /servers/1.json
   def show
+    ldap = Net::LDAP.new
+
+      
+      @user = @server.users.all#(user_params)
+
+      # @user.created_at = Time.now
+      # @user.updated_at = @user.created_at unless @user.updated_at
+      
+
   end
 
   # GET /servers/new
   def new
     @server = Server.new
+    @user = User.new
   end
 
   # GET /servers/1/edit
@@ -24,8 +34,27 @@ class ServersController < ApplicationController
   # POST /servers
   # POST /servers.json
   def create
+    @user = User.new#(user_params)
     @server = Server.new(server_params)
     @server.dig
+        ldap = Net::LDAP.new
+    ldap.host = @server.host
+    ldap.port = 389
+    ldap.auth @server.login+"@#{@server.domain}", @server.pass
+    treebase = @server.domain.split('.').map {|d| "dc=#{d}" }.join(',')
+    filter = Net::LDAP::Filter.eq( "objectclass", "person" )
+    ldap.search( :base => treebase, :filter => filter ) do |entry|
+      
+      @user = @server.users.new#(user_params)
+      @user.accountname = entry.sAMAccountName.join
+      @user.cn = entry.cn.join
+      @user.objectclass = entry.objectclass
+      @user.dn = entry.dn
+      # @user.created_at = Time.now
+      # @user.updated_at = @user.created_at unless @user.updated_at
+      @user.save
+    end
+
 
     respond_to do |format|
       if @server.save
@@ -63,6 +92,15 @@ class ServersController < ApplicationController
   end
 
   private
+
+  # def set_user
+  #   @user = User.find(params[:id])
+  # end
+
+  # def user_params
+  #   params.require(:user).permit(:accountname, :cn, :objectclass, :dn, :server)
+  # end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_server
       @server = Server.find(params[:id])

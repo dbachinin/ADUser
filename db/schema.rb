@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170531053948) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "AccountName"
+    t.string "accountname"
     t.string "cn"
     t.string "objectclass"
     t.string "dn"

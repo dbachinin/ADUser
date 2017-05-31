@@ -9,25 +9,15 @@
       </tr>
 
 
-<%
-		ldap = Net::LDAP.new
-		@server.dig
-		ldap.host = @server.host
-		ldap.port = 389
- 		ldap.auth @server.login+"@#{@server.domain}", @server.pass
-		treebase = @server.domain.split('.').map {|d| "dc=#{d}" }.join(',') 
-
-	filter = Net::LDAP::Filter.eq( "objectclass", "person" ) %>
-	
-	<%ldap.search( :base => treebase, :filter => filter ) do |entry_2| %>
+      <% @user.each do |user| %>
 	<tr>
-	<td><%= link_to entry_2.sAMAccountName.join '#' %></td>
-	<td><%= entry_2.cn.join %></td>
-	<td><%= entry_2.objectclass %></td>
-	<td><%= entry_2.dn %></td>
+	<td><%= link_to user.accountname, '#' %></td>
+	<td><%= user.cn %></td>
+	<td><%= user.objectclass %></td>
+	<td><%= user.dn %></td>
 	</tr>
-	
-    <%  end %>
+	<% end %>
+
 
 
 
