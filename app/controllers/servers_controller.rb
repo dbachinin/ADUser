@@ -25,6 +25,7 @@ class ServersController < ApplicationController
   # POST /servers.json
   def create
     @server = Server.new(server_params)
+    @server.dig
 
     respond_to do |format|
       if @server.save

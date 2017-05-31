@@ -10,23 +10,14 @@
 
 
 <%
-	
-	system("touch tmp/tempfile")# unless File.exist?('tmp/tempfile')
-    wFile = File.open("tmp/tempfile", "w+")
-    #rnd = rand(100)
- 	wFile.puts @server.domain
- 	wFile.close
-	temp_dig = %x('lib/dig.sh')
-
-	ldap = Net::LDAP.new
-
+		ldap = Net::LDAP.new
+		@server.dig
 		ldap.host = @server.host
-		ldap.host = temp_dig.chomp if @server.host == ""
 		ldap.port = 389
  		ldap.auth @server.login+"@#{@server.domain}", @server.pass
 		treebase = @server.domain.split('.').map {|d| "dc=#{d}" }.join(',') 
 
-	<% filter = Net::LDAP::Filter.eq( "objectclass", "person" ) %>
+	filter = Net::LDAP::Filter.eq( "objectclass", "person" ) %>
 	
 	<%ldap.search( :base => treebase, :filter => filter ) do |entry_2| %>
 	<tr>
@@ -38,7 +29,6 @@
 	
     <%  end %>
 
-    <% system("echo "" > tmp/tempfile") %>
 
 
 
