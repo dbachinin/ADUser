@@ -173,6 +173,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  builder
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)

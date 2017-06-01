@@ -1,2 +1,25 @@
-<h1>UserShowEdit#show</h1>
-<p>Find me in app/views/user_show_edit/show.html.erb</p>
+<% d = Hash.new %>
+
+<table>
+  <thead>
+    <tr>
+    <th>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+<tbody>
+
+<% @showuser.each do |x, y| %>
+<% @key = x %>
+<% @val = y %>
+<tr>
+<td><%= link_to "Edit", edit_user_show_edit_path(@val) %></td>
+ <td><%= @key %></td>
+ <td><%= @val %></td>
+</tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Server', new_server_path %>

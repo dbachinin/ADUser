@@ -11,7 +11,7 @@
 
       <% @user.each do |user| %>
 	<tr>
-	<td><%= link_to user.accountname, '#' %></td>
+	<td><%= link_to user.accountname, user_show_edit_path(user) %></td>
 	<td><%= user.cn %></td>
 	<td><%= user.objectclass %></td>
 	<td><%= user.dn %></td>

@@ -31,7 +31,7 @@ class ServersController < ApplicationController
     @user = User.new#(user_params)
     @server = Server.new(server_params)
     @server.dig
-        ldap = Net::LDAP.new
+    ldap = Net::LDAP.new
     ldap.host = @server.host
     ldap.port = 389
     ldap.auth @server.login+"@#{@server.domain}", @server.pass
