@@ -1,22 +1,11 @@
-<%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(server.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_tag "new_user_show/edit" do %>
 
   <div class="field">
-    <%= form.label :key %>
-    <%= form.text_field :@val, value: @val %>
+    <%= p @key %>
+    <%= text_field_tag :@val, value: @id %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= submit_tag %>
   </div>
 <% end %>

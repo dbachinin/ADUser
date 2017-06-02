@@ -15,7 +15,7 @@ class UserShowEditController < ApplicationController
     ldap.search( :base => treebase, :filter => filter ) do |entry|
       @showuser = entry
       @key
-      @val
+      @val = @user.id
     end
   end
 
@@ -23,6 +23,9 @@ class UserShowEditController < ApplicationController
   end
   
   def edit
+      @key
+      @val = User.find(params[:id])
+
   end
 
   def update
