@@ -1,8 +1,9 @@
 <%= form_tag "new_user_show/edit" do %>
-
+<p><%= p @key %></p>
+<p><%= p @val %></p>
   <div class="field">
     <%= p @key %>
-    <%= text_field_tag :@val, value: @id %>
+    <%= text_field_tag :@val, {:value => @url}%>
   </div>
 
   <div class="actions">

@@ -14,8 +14,8 @@ class UserShowEditController < ApplicationController
     filter = Net::LDAP::Filter.eq( "samaccountname", @user.accountname )
     ldap.search( :base => treebase, :filter => filter ) do |entry|
       @showuser = entry
-      @key
-      @val = @user.id
+      @key = @showuser[0]
+      @val = @showuser[1]
     end
   end
 
@@ -24,7 +24,21 @@ class UserShowEditController < ApplicationController
   
   def edit
       @key
-      @val = User.find(params[:id])
+      @val #= User.find(params[:id]).
+
+    # @user = User.find(params[:id])
+    # server = Server.find(@user.server_id)
+    # ldap = Net::LDAP.new
+    # ldap.host = server.host
+    # ldap.port = 389
+    # ldap.auth server.login+"@#{server.domain}", server.pass
+    # treebase = server.domain.split('.').map {|d| "dc=#{d}" }.join(',')
+    # filter = Net::LDAP::Filter.eq( "samaccountname", @user.accountname )
+    # ldap.search( :base => treebase, :filter => filter ) do |entry|
+    #   @showuser = entry
+    #   @key
+     # @val = @user.id
+    # end
 
   end
 
